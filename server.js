@@ -14,7 +14,8 @@ let relayConnected = false;
 function connectRelay() {
   console.log("Connecting to private relay...");
 
-  relay = new WebSocket("wss://greens-relay.onrender.com/");
+  // IMPORTANT: Correct relay URL (grreens with 3 R's)
+  relay = new WebSocket("wss://grreens-relay.onrender.com/");
 
   relay.on("open", () => {
     relayConnected = true;
