@@ -1,9 +1,0 @@
-{
-  "motd": "",
-  "maxPlayers": 50,
-  "onlineMode": false,
-  "compressionLevel": 1,
-  "enableRewind": true,
-  "rewindSeconds": 5,
-  "port": 8080
-}
