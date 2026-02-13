@@ -1,59 +1,38 @@
 const express = require("express");
 const { WebSocketServer } = require("ws");
 const fs = require("fs");
+const WebSocket = require("ws");
 
-const config = JSON.parse(fs.readFileSync("config.json"));
-const app = express();
+let relay;
+let relayConnected = false;
 
-app.use(express.static("public"));
+function connectRelay() {
+  console.log("Connecting to private relay...");
 
-const server = app.listen(process.env.PORT || config.port, () => {
-  console.log("EaglerX Enhanced Server running on port " + (process.env.PORT || config.port));
-});
+  relay = new WebSocket("wss://grreens-relay.onrender.com/");
 
-const wss = new WebSocketServer({ server });
-
-let players = new Map();
-
-wss.on("connection", (ws) => {
-  console.log("Player connected");
-
-  ws.send(JSON.stringify({
-    type: "motd",
-    text: config.motd
-  }));
-
-  players.set(ws, {
-    rewindBuffer: [],
-    lastUpdate: Date.now()
+  relay.on("open", () => {
+    relayConnected = true;
+    console.log("Connected to private relay");
   });
 
-  ws.on("message", (msg) => {
-    let data;
-    try {
-      data = JSON.parse(msg);
-    } catch {
-      return;
-    }
+  relay.on("close", () => {
+    relayConnected = false;
+    console.log("Relay disconnected, retrying in 5 seconds...");
+    setTimeout(connectRelay, 5000);
+  });
 
-    if (config.enableRewind) {
-      const p = players.get(ws);
-      p.rewindBuffer.push({ data, time: Date.now() });
+  relay.on("error", () => {
+    relayConnected = false;
+  });
 
-      if (p.rewindBuffer.length > config.rewindSeconds * 20) {
-        p.rewindBuffer.shift();
-      }
-    }
-
+  relay.on("message", (msg) => {
     for (let client of wss.clients) {
-      if (client !== ws && client.readyState === 1) {
+      if (client.readyState === 1) {
         client.send(msg);
       }
     }
   });
+}
 
-  ws.on("close", () => {
-    console.log("Player disconnected");
-    players.delete(ws);
-  });
-});
+connectRelay();
