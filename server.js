@@ -8,7 +8,7 @@ const app = express();
 
 app.use(express.static("public"));
 
-// Start HTTP server
+// Start HTTPS server
 const server = app.listen(process.env.PORT || config.port, () => {
   console.log("GRREENs Server running on port " + (process.env.PORT || config.port));
 });
