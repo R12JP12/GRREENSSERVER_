@@ -1,6 +1,6 @@
 {
   "motd": "",
-  "maxPlayers": 50,
+  "maxPlayers": 5,
   "onlineMode": false,
   "compressionLevel": 1,
   "enableRewind": true,
