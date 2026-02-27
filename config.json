@@ -5,6 +5,6 @@
   "compressionLevel": 1,
   "enableRewind": true,
   "rewindSeconds": 5,
-  "relay": "wss://grreens-relay.onrender.com/",
+  "relay": "",
   "port": 8080
 }
