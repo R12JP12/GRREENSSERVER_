@@ -1,5 +1,5 @@
 {
-  "name": "eaglerx-enhanced-server",
+  "name": "GRREENs Server",
   "version": "1.0.0",
   "description": "Enhanced EaglercraftX 1.8.8 NodeJS WebSocket Server",
   "main": "server.js",

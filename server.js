@@ -10,7 +10,7 @@ app.use(express.static("public"));
 
 // Start HTTP server
 const server = app.listen(process.env.PORT || config.port, () => {
-  console.log("EaglerX Enhanced Server running on port " + (process.env.PORT || config.port));
+  console.log("GRREENs Server running on port " + (process.env.PORT || config.port));
 });
 
 // Create WebSocket server
